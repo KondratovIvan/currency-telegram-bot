@@ -14,7 +14,7 @@ public class NBUClient {
     @Autowired
     private OkHttpClient client;
 
-    @Value("${https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange}")
+    @Value("${nbu.currency.rates.xml.url}")
     private String url;
 
     public String getCurrencyRatesXML() throws ServiceException{

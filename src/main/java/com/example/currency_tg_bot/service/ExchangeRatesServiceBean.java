@@ -4,7 +4,7 @@ import com.example.currency_tg_bot.client.NBUClient;
 import com.example.currency_tg_bot.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Document;
+import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import javax.xml.xpath.XPathConstants;
