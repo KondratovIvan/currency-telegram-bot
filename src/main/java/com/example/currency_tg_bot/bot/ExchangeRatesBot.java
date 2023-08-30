@@ -25,6 +25,12 @@ public class ExchangeRatesBot extends TelegramLongPollingBot {
     public static final String HELP="/help";
     public static final String USD="/usd";
     public static final String EUR="/eur";
+    public static final String PLN="/pln";
+    public static final String CZK="/czk";
+    public static final String GBP="/gbp";
+    public static final String IDR="/idr";
+    public static final String KZT="/kzt";
+    public static final String TRY="/try";
 
     public ExchangeRatesBot(@Value("${bot.token}") String botToken){
         super(botToken);
@@ -42,15 +48,17 @@ public class ExchangeRatesBot extends TelegramLongPollingBot {
                 String userName=update.getMessage().getChat().getUserName();
                 startCommandHandler(chatId, userName);
             }
-            case HELP -> {
-                helpCommandHandler(chatId);
-            }
-            case USD -> {
-                usdCommandHandler(chatId);
-            }
-            case EUR -> {
-                eurCommandHandler(chatId);
-            }
+            case HELP ->helpCommandHandler(chatId);
+
+            case USD -> usdCommandHandler(chatId);
+            case EUR -> eurCommandHandler(chatId);
+            case PLN -> plnCommandHandler(chatId);
+            case CZK -> czkCommandHandler(chatId);
+            case GBP -> gbpCommandHandler(chatId);
+            case IDR -> idrCommandHandler(chatId);
+            case KZT -> kztCommandHandler(chatId);
+            case TRY -> tryCommandHandler(chatId);
+
             default -> {
                 unknownCommandHandler(chatId);
             }
@@ -79,8 +87,15 @@ public class ExchangeRatesBot extends TelegramLongPollingBot {
                 Bot help
                 
                 To get current valutes exchange rates use commands:
-                /usd - American dollar exchange rate
+                
+                /usd - american dollar exchange rate
                 /eur - euro exchange rate
+                /pln - zloty exchange rate
+                /czk - czech crown exchange rate
+                /gbp - sterling pound exchange rate
+                /idr - rupee exchange rate
+                /kzt - tenge exchange rate
+                /try - turkish lira exchange rate
                 """;
         sendMessage(chatId,text);
     }
@@ -107,12 +122,90 @@ public class ExchangeRatesBot extends TelegramLongPollingBot {
     private void eurCommandHandler(Long chatId){
         String formattedText;
         try{
-            var usd = exchangeRatesService.getEURExchangeRate();
+            var eur = exchangeRatesService.getEURExchangeRate();
             var text = "Euro exchange rate for %s is %s hryvnia";
-            formattedText=String.format(text, LocalDate.now(), usd);
+            formattedText=String.format(text, LocalDate.now(), eur);
         }
         catch (ServiceException e){
             LOGGER.error("Euro exchange rate getting error", e);
+            formattedText = "Getting current euro exchange rate fail";
+        }
+        sendMessage(chatId,formattedText);
+    }
+    private void plnCommandHandler(Long chatId){
+        String formattedText;
+        try{
+            var pln = exchangeRatesService.getPLNExchangeRate();
+            var text = "Zloty exchange rate for %s is %s hryvnia";
+            formattedText=String.format(text, LocalDate.now(), pln);
+        }
+        catch (ServiceException e){
+            LOGGER.error("Zloty exchange rate getting error", e);
+            formattedText = "Getting current euro exchange rate fail";
+        }
+        sendMessage(chatId,formattedText);
+    }
+    private void czkCommandHandler(Long chatId){
+        String formattedText;
+        try{
+            var czk = exchangeRatesService.getCZKExchangeRate();
+            var text = "Czech crown exchange rate for %s is %s hryvnia";
+            formattedText=String.format(text, LocalDate.now(), czk);
+        }
+        catch (ServiceException e){
+            LOGGER.error("Czech crown exchange rate getting error", e);
+            formattedText = "Getting current euro exchange rate fail";
+        }
+        sendMessage(chatId,formattedText);
+    }
+    private void gbpCommandHandler(Long chatId){
+        String formattedText;
+        try{
+            var gbp = exchangeRatesService.getGBPExchangeRate();
+            var text = "Sterling pound exchange rate for %s is %s hryvnia";
+            formattedText=String.format(text, LocalDate.now(), gbp);
+        }
+        catch (ServiceException e){
+            LOGGER.error("Sterling pound exchange rate getting error", e);
+            formattedText = "Getting current euro exchange rate fail";
+        }
+        sendMessage(chatId,formattedText);
+    }
+    private void idrCommandHandler(Long chatId){
+        String formattedText;
+        try{
+            var idr = exchangeRatesService.getIDRExchangeRate();
+            var text = "Rupee exchange rate for %s is %s hryvnia";
+            formattedText=String.format(text, LocalDate.now(), idr);
+        }
+        catch (ServiceException e){
+            LOGGER.error("Rupee exchange rate getting error", e);
+            formattedText = "Getting current euro exchange rate fail";
+        }
+        sendMessage(chatId,formattedText);
+    }
+    private void kztCommandHandler(Long chatId){
+        String formattedText;
+        try{
+            var kzt = exchangeRatesService.getKZTExchangeRate();
+            var text = "Tenge exchange rate for %s is %s hryvnia";
+            formattedText=String.format(text, LocalDate.now(), kzt);
+        }
+        catch (ServiceException e){
+            LOGGER.error("Tenge exchange rate getting error", e);
+            formattedText = "Getting current euro exchange rate fail";
+        }
+        sendMessage(chatId,formattedText);
+    }
+    private void tryCommandHandler(Long chatId){
+        String formattedText;
+        try{
+            var try_ = exchangeRatesService.getTRYExchangeRate();
+            var text = "Turkish lira exchange rate for %s is %s hryvnia";
+            formattedText=String.format(text, LocalDate.now(), try_);
+        }
+        catch (ServiceException e){
+            LOGGER.error("Turkish lira exchange rate getting error", e);
             formattedText = "Getting current euro exchange rate fail";
         }
         sendMessage(chatId,formattedText);
