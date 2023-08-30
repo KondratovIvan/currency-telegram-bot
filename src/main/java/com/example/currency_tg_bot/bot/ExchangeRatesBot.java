@@ -51,6 +51,9 @@ public class ExchangeRatesBot extends TelegramLongPollingBot {
             case EUR -> {
                 eurCommandHandler(chatId);
             }
+            default -> {
+                unknownCommandHandler(chatId);
+            }
         }
     }
 
@@ -79,6 +82,11 @@ public class ExchangeRatesBot extends TelegramLongPollingBot {
                 /usd - American dollar exchange rate
                 /eur - euro exchange rate
                 """;
+        sendMessage(chatId,text);
+    }
+
+    private void unknownCommandHandler(Long chatId){
+        var text = "Unknown command, enter /help to get command list";
         sendMessage(chatId,text);
     }
 
